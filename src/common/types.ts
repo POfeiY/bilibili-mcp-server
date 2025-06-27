@@ -30,15 +30,15 @@ export interface UserInfo {
       type: number
       status: number
     }
-    followInfo: {
-    /** 粉丝数 */
-      follower: number
-      /** 关注数 */
-      following: number
-    }
-    /** 调用失败 */
-    v_voucher: any
   }
+  followInfo: {
+    /** 粉丝数 */
+    follower: number
+    /** 关注数 */
+    following: number
+  }
+  /** 调用失败 */
+  v_voucher: any
 }
 
 export interface BiliResponse<T> {

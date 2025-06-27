@@ -1,1 +1,63 @@
-import {} from './wbi'
+import type { BiliResponse, UserInfo } from './types'
+import fetch from 'node-fetch'
+import { wbiSignParamsQuery } from './wbi'
+
+if (!globalThis.fetch) {
+  globalThis.fetch = fetch as unknown as typeof globalThis.fetch
+}
+
+const BASE_URL = 'https://api.bilibili.com'
+
+// 预设请求头
+const DEFAULT_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+  'Referer': 'https://www.bilibili.com',
+  'Cookie': 'buvid3=randomstring; path=/; domain=.bilibili.com',
+}
+
+export async function apiHttp<T>(endpoint: string, params?: Record<string, string | number>): Promise<T> {
+  let url = `${BASE_URL}${endpoint}`
+
+  if (params) {
+    const signedParams = await wbiSignParamsQuery(params)
+    url += `?${signedParams}`
+  }
+
+  const response = await fetch(url, {
+    headers: DEFAULT_HEADERS,
+  })
+
+  if (!response.ok) {
+    throw new Error(
+      `API request failed: ${response.status} ${response.statusText}`,
+    )
+  }
+
+  const data = (await response.json()) as BiliResponse<T>
+
+  if (data.code !== 0) {
+    throw new Error(`API returned error: ${data.message || 'unknow error'}`)
+  }
+
+  return data.data
+}
+
+// user API
+export const userAPI = {
+  /**
+   * 获取用户信息
+   * @param mid 用户编号
+   * @returns
+   */
+  async getInfo(mid: number) {
+    return await apiHttp<UserInfo>('x/space/wbi/acc/info', { mid })
+  },
+  /**
+   * 获取用户关注和粉丝数
+   * @param mid
+   * @returns
+   */
+  async getRelationStat(mid: number) {
+    return await apiHttp<{ followers: number, following: number }>('x/relation/stat', { vmin: mid })
+  },
+}
