@@ -21,15 +21,15 @@ export interface UserInfo {
       /** 多少人看过 */
       text_small: number
     }
-    official: {
-      role: number
-      title: string
-      desc: string
-    } | null
-    vip: {
-      type: number
-      status: number
-    }
+  }
+  official: {
+    role: number
+    title: string
+    desc: string
+  } | null
+  vip: {
+    type: number
+    status: number
   }
   followInfo: {
     /** 粉丝数 */
