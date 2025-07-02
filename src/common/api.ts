@@ -49,15 +49,15 @@ export const userAPI = {
    * @param mid 用户编号
    * @returns
    */
-  async getInfo(mid: number) {
-    return await apiHttp<UserInfo>('x/space/wbi/acc/info', { mid })
+  async getInfo(mid: number): Promise<UserInfo> {
+    return await apiHttp<UserInfo>('/x/space/wbi/acc/info', { mid })
   },
   /**
    * 获取用户关注和粉丝数
    * @param mid
    * @returns
    */
-  async getRelationStat(mid: number) {
-    return await apiHttp<{ followers: number, following: number }>('x/relation/stat', { vmin: mid })
+  async getRelationStat(mid: number): Promise<{ followers: number, following: number }> {
+    return await apiHttp<{ followers: number, following: number }>(`/x/relation/stat`, { vmid: mid })
   },
 }

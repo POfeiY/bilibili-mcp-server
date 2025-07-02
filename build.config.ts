@@ -6,4 +6,5 @@ export default defineBuildConfig({
   ],
   declaration: true,
   clean: true,
+  failOnWarn: false,
 })

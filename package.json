@@ -34,13 +34,14 @@
     }
   },
   "bin": {
-    "bilibili": "dist/index.js"
+    "bilibili": "dist/index.mjs"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && shx chmod +x dist/*.js",
+    "build-test": "tsc && shx chmod +x dist/*.js",
+    "build": "unbuild",
     "dev": "unbuild --stub",
     "lint": "eslint .",
     "prepublishOnly": "nr build",

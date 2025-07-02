@@ -160,7 +160,7 @@ async function getWbiKeys(): Promise<WbiKeys> {
     },
   })
 
-  const data: NavResponse = await res.json()
+  const data: NavResponse = (await res.json()) as NavResponse
 
   const img_url: string = data.data.wbi_img.img_url
   const sub_url: string = data.data.wbi_img.sub_url
