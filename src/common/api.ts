@@ -1,4 +1,4 @@
-import type { BiliResponse, SearchResult, UserInfo } from './types'
+import type { BiliResponse, SearchResult, UserInfo, VideoDetail } from './types'
 import fetch from 'node-fetch'
 import { wbiSignParamsQuery } from './wbi'
 
@@ -62,6 +62,9 @@ export const userAPI = {
   },
 }
 
+/**
+ * 搜索相关API
+ */
 export const searchAPI = {
   async searchVideos(keyword: string, page: number = 1) {
     return await apiHttp<SearchResult>('/x/web-interface/search/all/v2', {
@@ -69,5 +72,14 @@ export const searchAPI = {
       page,
       search_type: 'video',
     })
+  },
+}
+
+/**
+ * 视频 API
+ */
+export const videoAPI = {
+  async getDetail(bvid: string) {
+    return await apiHttp<VideoDetail>('/x/web-interface/view', { bvid })
   },
 }

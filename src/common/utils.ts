@@ -1,5 +1,5 @@
-import type { SearchResult, UserInfo } from './types'
-import { searchAPI, userAPI } from './api'
+import type { SearchResult, UserInfo, VideoDetail } from './types'
+import { searchAPI, userAPI, videoAPI } from './api'
 import i18n from './i18n'
 
 export async function getUserInfo(mid: number): Promise<UserInfo> {
@@ -78,4 +78,25 @@ export async function searchVideos(keyword: string, page: number = 1): Promise<S
 export function formatTimestamp(timestamp: number): string {
   const date = new Date(timestamp * 1000)
   return date.toLocaleString()
+}
+
+export function formatDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remainSeconds = seconds % 60
+
+  if (hours > 0)
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainSeconds.toString().padStart(2, '0')}`
+  else
+    return `${minutes.toString().padStart(2, '0')}:${remainSeconds.toString().padStart(2, '0')}`
+}
+
+export async function getVideoDetail(bvid: string): Promise<VideoDetail> {
+  try {
+    return await videoAPI.getDetail(bvid)
+  }
+  catch (error) {
+    console.error('Error fetch video:', error)
+    throw error
+  }
 }
