@@ -1,4 +1,4 @@
-import type { BiliResponse, UserInfo } from './types'
+import type { BiliResponse, SearchResult, UserInfo } from './types'
 import fetch from 'node-fetch'
 import { wbiSignParamsQuery } from './wbi'
 
@@ -59,5 +59,15 @@ export const userAPI = {
    */
   async getRelationStat(mid: number): Promise<{ followers: number, following: number }> {
     return await apiHttp<{ followers: number, following: number }>(`/x/relation/stat`, { vmid: mid })
+  },
+}
+
+export const searchAPI = {
+  async searchVideos(keyword: string, page: number = 1) {
+    return await apiHttp<SearchResult>('/x/web-interface/search/all/v2', {
+      keyword,
+      page,
+      search_type: 'video',
+    })
   },
 }

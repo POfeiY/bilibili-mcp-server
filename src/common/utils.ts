@@ -1,5 +1,5 @@
-import type { UserInfo } from './types'
-import { userAPI } from './api'
+import type { SearchResult, UserInfo } from './types'
+import { searchAPI, userAPI } from './api'
 import i18n from './i18n'
 
 export async function getUserInfo(mid: number): Promise<UserInfo> {
@@ -58,4 +58,24 @@ export function formatUserInfo(user: UserInfo): string {
     .join('\n')
 
   return info
+}
+
+export async function searchVideos(keyword: string, page: number = 1): Promise<SearchResult> {
+  try {
+    return await searchAPI.searchVideos(keyword, page)
+  }
+  catch (error) {
+    console.error('Error searching videos', error)
+    throw error
+  }
+}
+
+/**
+ * 格式化时间戳
+ * @param timestamp
+ * @returns
+ */
+export function formatTimestamp(timestamp: number): string {
+  const date = new Date(timestamp * 1000)
+  return date.toLocaleString()
 }

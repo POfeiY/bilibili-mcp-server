@@ -4,6 +4,7 @@ import process from 'node:process'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 
+import { registerSearchTools } from './tools/search'
 import { registerUserTools } from './tools/user'
 
 const server = new McpServer({
@@ -13,6 +14,7 @@ const server = new McpServer({
 
 async function main(): Promise<void> {
   registerUserTools(server)
+  registerSearchTools(server)
 
   const transport = new StdioServerTransport()
   await server.connect(transport)
