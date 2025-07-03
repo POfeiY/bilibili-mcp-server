@@ -6,6 +6,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 
 import { registerSearchTools } from './tools/search'
 import { registerUserTools } from './tools/user'
+import { registerVideoTools } from './tools/video'
 
 const server = new McpServer({
   name: 'bilibili-mcp-server',
@@ -15,6 +16,7 @@ const server = new McpServer({
 async function main(): Promise<void> {
   registerUserTools(server)
   registerSearchTools(server)
+  registerVideoTools(server)
 
   const transport = new StdioServerTransport()
   await server.connect(transport)
